@@ -36,6 +36,7 @@ if [ ! -L favicon.ico ]; then
     ln -s assets/cache/favicon.ico favicon.ico
 fi
 
+# Read-only bind mounts (for example plugin Runtime.php) must not abort startup.
 chown -R www-data:www-data \
     assets/cache \
     app/Pay \
@@ -43,6 +44,7 @@ chown -R www-data:www-data \
     app/View/User/Theme \
     config \
     kernel/Install \
-    runtime
+    runtime \
+    || true
 
 exec docker-php-entrypoint "$@"
